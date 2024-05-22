@@ -1,31 +1,47 @@
+from art import logo
 import random
 
-gameActive = True
-chosenNumber = random.randrange(1, 100)
-print("I'm thinking of a number between 1 and 100.")
-modeType = str(input("Please choose a mode. 'e' for Easy or 'h' for Hard. ")).lower()
-if modeType == 'e':
-  attempts = 10
-elif modeType == 'h':
-  attempts = 5
-else:
-  print("I could not understand your selection. Try again.")
-  gameActive = False
+print(logo)
+EASY_MODE = 10
+HARD_MODE = 5
 
-while gameActive:
-  print(f"You have {attempts} attempts remaining to guess the number.")
-  guess = int(input("Make a guess: "))
+# Determine difficulty
+def mode():
+  type = input("Please choose a mode.\nType 'e' for Easy or 'h' for Hard. ").lower()
+  if type == 'e':
+    return EASY_MODE
+  elif type == 'h':
+    return HARD_MODE
+# Guess!
+def guess(attempts, chosenNumber):
+  while attempts != 0:
+    print(f"You have {attempts} attempts remaining to guess the number.")
+    guess = int(input("Make a guess: "))
+    checker = check_guess(guess, chosenNumber)
+    if checker:
+      print(f"You guessed correctly. The answer is {chosenNumber}")
+      break
+    else:
+      attempts -= 1
+    if attempts == 0:
+      print("You have run out of guesses. End of game.")
+# Check answer against guess
+def check_guess(guess, chosenNumber):
   if guess == chosenNumber:
-    print(f"You guessed correctly. The answer is {chosenNumber}")
-    gameActive = False
-    break
+    return True
   elif guess > chosenNumber:
-      print("Too high.")
+    print("Too high.")
   else:
-      print("Too low.")
-  attempts -= 1
-  if attempts == 0 and guess != chosenNumber:
-    print("You have run out of guesses. Play again.")
-    gameActive = False
+    print("Too low.")
+# Game
+def game():
+  print("I'm thinking of a number between 1 and 100.")
+  chosenNumber = random.randrange(1, 100)
+  attempts = mode()
+  guess(attempts, chosenNumber)
+  restart = input("Play again? Yes or No? \n").lower()
+  if restart == "yes":
+    game()
   else:
-    print("Guess again.")
+    None
+game()
