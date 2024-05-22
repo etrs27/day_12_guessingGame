@@ -36,7 +36,7 @@ def check_guess(guess, chosenNumber):
 # Game
 def game():
   print("I'm thinking of a number between 1 and 100.")
-  chosenNumber = random.randrange(1, 100)
+  chosenNumber = random.randrange(1, 101)
   attempts = mode()
   guess(attempts, chosenNumber)
   restart = input("Play again? Yes or No? \n").lower()
